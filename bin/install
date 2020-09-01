@@ -84,7 +84,7 @@ install_default_go_pkgs() {
     fi
   done
   if [[ $needs_reshim -eq 1 ]]; then
-    "$ASDF_INSTALL_PATH/bin/asdf" reshim golang
+    asdf reshim golang
   fi
 }
 
