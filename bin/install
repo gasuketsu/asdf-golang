@@ -67,12 +67,6 @@ install_default_go_pkgs() {
   if [ ! -f $default_go_pkgs ]; then return; fi
 
   needs_reshim=0
-  if [ "$GOROOT" = "" ] ; then
-    export GOROOT="$ASDF_INSTALL_PATH/go"
-  fi
-  if [ "$GOPATH" = "" ]; then
-    export GOPATH="$ASDF_INSTALL_PATH/packages"
-  fi
 
   cat "$default_go_pkgs" | while read -r line; do
     name=$(echo "$line" | \
@@ -81,7 +75,8 @@ install_default_go_pkgs() {
 
     if [ -z $name ]; then continue ; fi
     echo -ne "\nInstalling \033[33m${name}\033[39m go pkg... "
-    PATH="$ASDF_INSTALL_PATH/go/bin:$PATH" go get -u $name > /dev/null && rc=$? || rc=$?
+    GOROOT="$ASDF_INSTALL_PATH/go" GOPATH="$ASDF_INSTALL_PATH/packages" \
+      PATH="$ASDF_INSTALL_PATH/go/bin:$PATH" go get -u $name > /dev/null && rc=$? || rc=$?
     if [[ $rc -eq 0 ]]; then
       echo -e "\033[32mSUCCESS\033[39m"
     else
