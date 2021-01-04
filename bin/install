@@ -83,15 +83,11 @@ install_default_go_pkgs() {
     echo -ne "\nInstalling \033[33m${name}\033[39m go pkg... "
     PATH="$ASDF_INSTALL_PATH/go/bin:$PATH" go get -u $name > /dev/null && rc=$? || rc=$?
     if [[ $rc -eq 0 ]]; then
-      needs_reshim=1
       echo -e "\033[32mSUCCESS\033[39m"
     else
       echo -e "\033[31mFAIL\033[39m"
     fi
   done
-  if [[ $needs_reshim -eq 1 ]]; then
-    "$ASDF_INSTALL_PATH/bin/asdf" reshim golang
-  fi
 }
 
 install_golang $ASDF_INSTALL_TYPE $ASDF_INSTALL_VERSION $ASDF_INSTALL_PATH
